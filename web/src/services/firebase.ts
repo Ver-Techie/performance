@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, sendSignInLinkToEmail, signOut, onAuthStateChanged } from 'firebase/auth';
 import { getMessaging } from 'firebase/messaging';
 
 const firebaseConfig = {
@@ -14,4 +14,23 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const messaging = getMessaging(app);
+
+export const sendLoginLink = async (email: string) => {
+  const actionCodeSettings = {
+    url: `${window.location.origin}/auth/callback`,
+    handleCodeInApp: true,
+  };
+
+  await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+  window.localStorage.setItem('emailForSignIn', email);
+};
+
+export const signOutUser = async () => {
+  await signOut(auth);
+};
+
+export const onAuthStateChange = (callback: (user: any) => void) => {
+  return onAuthStateChanged(auth, callback);
+};
+
 export default app; 
