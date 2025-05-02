@@ -5,7 +5,6 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  root: '.', // This is important for Vercel
   build: {
     outDir: 'dist',
     emptyOutDir: true,
